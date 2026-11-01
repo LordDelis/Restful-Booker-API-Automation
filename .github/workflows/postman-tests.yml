@@ -1,8 +1,6 @@
 name: Automated API tests using Postman CLI
 
-on:
-  repository_dispatch:
-    types: [run-postman-tests]
+on: push
 
 jobs:
   automated-api-tests:
@@ -16,4 +14,9 @@ jobs:
         run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
       - name: Run API tests
         run: |
-          postman collection run "21443378-360529d1-f81e-471c-813f-e2173af5f95c" -e "21443378-c8f5d8e0-2566-4c55-8525-66e23e21076e"
+          mkdir -p reports postman collection run "21443378-360529d1-f81e-471c-813f-e2173af5f95c" -e "21443378-c8f5d8e0-2566-4c55-8525-66e23e21076e"
+      - name: Upload Test Report Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: postman-test-report
+          path: reports/test-report.json
