@@ -1,6 +1,8 @@
 name: Automated API tests using Postman CLI
 
-on: push
+on:
+  repository_dispatch:
+    types: [run-postman-tests]
 
 jobs:
   automated-api-tests:
